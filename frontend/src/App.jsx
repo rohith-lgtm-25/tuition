@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import Dashboard from "./components/Dashboard";
 import Students from "./Students";
 import Fees from "./Fees";
+import Login from "./components/Login";
 
 function App() {
   const [page, setPage] = useState("dashboard");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLoginSuccess = (token) => {
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setPage("dashboard");
+  };
+
+  if (!isLoggedIn) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
 
   // Modern SVG Icons
   const DashboardIcon = () => (
@@ -80,6 +104,17 @@ function App() {
             <span>Fees Management</span>
           </button>
         </nav>
+
+        <div style={{ marginTop: "auto", padding: "20px 0 0 0", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "center" }}>
+          <button
+            onClick={handleLogout}
+            className="btn btn-secondary"
+            style={{ width: "100%", padding: "10px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            Logout
+          </button>
+        </div>
       </aside>
 
       {/* Main Content Area */}

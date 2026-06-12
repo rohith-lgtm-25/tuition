@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -41,6 +41,11 @@ class FeeCreate(BaseModel):
 
 class FeeUpdate(BaseModel):
     status: str
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
 
 
 # ==========================
@@ -213,3 +218,23 @@ def dashboard():
         "total_collected": total_collected,
         "total_pending_amount": total_pending_amount
     }
+
+
+# ==========================
+# Login API
+# ==========================
+
+@app.post("/login")
+def login(credentials: LoginRequest):
+    # Standard credentials check (can also check environment variables)
+    if credentials.username == "admin" and credentials.password == "admin123":
+        return {
+            "token": "admin-session-token-987654321",
+            "username": "admin",
+            "message": "Login successful"
+        }
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid username or password"
+        )
