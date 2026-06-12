@@ -8,14 +8,12 @@ import Login from "./components/Login";
 
 function App() {
   const [page, setPage] = useState("dashboard");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  // Remove the redundant useEffect since we initialize synchronously
+
 
   const handleLoginSuccess = (token) => {
     localStorage.setItem("token", token);
