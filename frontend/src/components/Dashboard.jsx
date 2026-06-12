@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../config";
 
 function Dashboard({ setPage }) {
   const [data, setData] = useState({
@@ -11,7 +12,7 @@ function Dashboard({ setPage }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/dashboard")
+    fetch(`${API_BASE_URL}/dashboard`)
       .then((res) => {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();

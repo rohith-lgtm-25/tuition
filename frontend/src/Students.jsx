@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "./config";
 
 function Students() {
   const [students, setStudents] = useState([]);
@@ -17,7 +18,7 @@ function Students() {
 
   const loadStudents = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/students");
+      const response = await fetch(`${API_BASE_URL}/students`);
       const data = await response.json();
       setStudents(data);
     } catch (err) {
@@ -63,14 +64,14 @@ function Students() {
     try {
       if (editingStudentId) {
         // Edit student
-        await fetch(`http://127.0.0.1:8000/students/${editingStudentId}`, {
+        await fetch(`${API_BASE_URL}/students/${editingStudentId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(studentData),
         });
       } else {
         // Add student
-        await fetch("http://127.0.0.1:8000/students", {
+        await fetch(`${API_BASE_URL}/students`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(studentData),
@@ -87,7 +88,7 @@ function Students() {
   const deleteStudent = async (id) => {
     if (!confirm("Are you sure you want to delete this student?")) return;
     try {
-      await fetch(`http://127.0.0.1:8000/students/${id}`, {
+      await fetch(`${API_BASE_URL}/students/${id}`, {
         method: "DELETE",
       });
       loadStudents();

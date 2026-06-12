@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "./config";
 
 function Fees() {
   const [students, setStudents] = useState([]);
@@ -16,7 +17,7 @@ function Fees() {
 
   const loadStudents = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/students");
+      const response = await fetch(`${API_BASE_URL}/students`);
       const data = await response.json();
       setStudents(data);
     } catch (err) {
@@ -26,7 +27,7 @@ function Fees() {
 
   const loadFees = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/fees");
+      const response = await fetch(`${API_BASE_URL}/fees`);
       const data = await response.json();
       setFees(data);
     } catch (err) {
@@ -68,7 +69,7 @@ function Fees() {
     }
 
     try {
-      await fetch("http://127.0.0.1:8000/fees", {
+      await fetch(`${API_BASE_URL}/fees`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -92,7 +93,7 @@ function Fees() {
   const toggleFeeStatus = async (feeId, currentStatus) => {
     const newStatus = currentStatus === "Paid" ? "Pending" : "Paid";
     try {
-      await fetch(`http://127.0.0.1:8000/fees/${feeId}`, {
+      await fetch(`${API_BASE_URL}/fees/${feeId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
