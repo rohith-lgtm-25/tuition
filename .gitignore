@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# Python virtualenv & cache
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Databases
+backend/students.db
+*.db
+*.sqlite3
+
+# Vite / Frontend build artifacts
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
