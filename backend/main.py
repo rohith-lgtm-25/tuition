@@ -102,10 +102,13 @@ def delete_student(student_id: int):
     if not student:
         return {"message": "Student Not Found"}
 
+    # Cascade delete related fees
+    db.query(Fee).filter(Fee.student_id == student_id).delete(synchronize_session=False)
+
     db.delete(student)
     db.commit()
 
-    return {"message": "Student Deleted"}
+    return {"message": "Student and associated records deleted"}
 
 
 @app.put("/students/{student_id}")
